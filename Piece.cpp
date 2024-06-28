@@ -374,7 +374,7 @@ King::King(Color color) : Piece(color), hasMoved(false) {
 }
 
 void King::draw(sf::RenderWindow& window, int x, int y) {
-    sprite.setPosition(static_cast<float>(x * 100 + 50), static_cast<float>(y * 100 + 50)); // Center the piece
+    sprite.setPosition(static_cast<float>(x * 100 + 50), static_cast<float>(y * 100 + 50));
     window.draw(sprite);
 }
 

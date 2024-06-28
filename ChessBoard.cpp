@@ -18,7 +18,7 @@ ChessBoard::~ChessBoard() {
 }
 
 void ChessBoard::initBoard() {
-    // Очистка доски перед инициализацией
+    // Очистка 
     for (auto& row : board) {
         for (auto& piece : row) {
             delete piece;
@@ -29,35 +29,29 @@ void ChessBoard::initBoard() {
     board.clear();
     board.resize(8, std::vector<Piece*>(8, nullptr));
 
-    // Place pawns
     for (int i = 0; i < 8; ++i) {
         board[1][i] = new Pawn(Piece::Color::Black);
         board[6][i] = new Pawn(Piece::Color::White);
     }
 
-    // Place rooks
     board[0][0] = new Rook(Piece::Color::Black);
     board[0][7] = new Rook(Piece::Color::Black);
     board[7][0] = new Rook(Piece::Color::White);
     board[7][7] = new Rook(Piece::Color::White);
 
-    // Place knights
     board[0][1] = new Knight(Piece::Color::Black);
     board[0][6] = new Knight(Piece::Color::Black);
     board[7][1] = new Knight(Piece::Color::White);
     board[7][6] = new Knight(Piece::Color::White);
 
-    // Place bishops
     board[0][2] = new Bishop(Piece::Color::Black);
     board[0][5] = new Bishop(Piece::Color::Black);
     board[7][2] = new Bishop(Piece::Color::White);
     board[7][5] = new Bishop(Piece::Color::White);
 
-    // Place queens
     board[0][3] = new Queen(Piece::Color::Black);
     board[7][3] = new Queen(Piece::Color::White);
 
-    // Place kings
     board[0][4] = new King(Piece::Color::Black);
     board[7][4] = new King(Piece::Color::White);
 }
@@ -84,19 +78,19 @@ void ChessBoard::handleEvent(const sf::Event& event) {
             sf::Vector2i target(x, y);
             if (std::find(validMoves.begin(), validMoves.end(), target) != validMoves.end()) {
                 if (dynamic_cast<King*>(board[selectedPiece.y][selectedPiece.x])) {
-                    if (target.x == selectedPiece.x - 2) { // Queen-side castling
+                    if (target.x == selectedPiece.x - 2) {
                         std::swap(board[selectedPiece.y][selectedPiece.x], board[target.y][target.x]);
                         std::swap(board[target.y][0], board[target.y][target.x + 1]);
                         dynamic_cast<King*>(board[target.y][target.x])->hasMoved = true;
                         dynamic_cast<Rook*>(board[target.y][target.x + 1])->hasMoved = true;
                     }
-                    else if (target.x == selectedPiece.x + 2) { // King-side castling
+                    else if (target.x == selectedPiece.x + 2) {
                         std::swap(board[selectedPiece.y][selectedPiece.x], board[target.y][target.x]);
                         std::swap(board[target.y][7], board[target.y][target.x - 1]);
                         dynamic_cast<King*>(board[target.y][target.x])->hasMoved = true;
                         dynamic_cast<Rook*>(board[target.y][target.x - 1])->hasMoved = true;
                     }
-                    else { // обычный ход короля
+                    else {
                         std::swap(board[selectedPiece.y][selectedPiece.x], board[target.y][target.x]);
                         dynamic_cast<King*>(board[target.y][target.x])->hasMoved = true;
                     }
@@ -213,16 +207,16 @@ sf::Vector2i ChessBoard::findKing(Piece::Color color) {
             }
         }
     }
-    return sf::Vector2i(-1, -1); // This should never happen
+    return sf::Vector2i(-1, -1); // FULL ERROR
 }
 
 void ChessBoard::highlightValidMoves(const std::vector<sf::Vector2i>& moves) {
     moveHints.clear();
     captureHints.clear();
     for (const auto& move : moves) {
-        sf::CircleShape hint(15); // Радиус круга
-        hint.setOrigin(15, 15); // Центрирование круга
-        hint.setPosition(move.x * 100 + 50, move.y * 100 + 50); // Установка позиции в центр клетки
+        sf::CircleShape hint(15); 
+        hint.setOrigin(15, 15); 
+        hint.setPosition(move.x * 100 + 50, move.y * 100 + 50);
         if (board[move.y][move.x] == nullptr) {
             hint.setFillColor(sf::Color::Green);
             moveHints.push_back(hint);
