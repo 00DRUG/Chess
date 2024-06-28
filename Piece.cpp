@@ -3,16 +3,14 @@
 #include <filesystem>
 #include <algorithm>
 
-// Piece implementation
 Piece::Piece(Color color) : color(color) {}
 
 Piece::Color Piece::getColor() const {
     return color;
 }
 
-// Helper function to set the sprite's scale and origin for centering
 void setSpriteProperties(sf::Sprite& sprite) {
-    sprite.setScale(0.75f, 0.75f); // Adjust the scale if needed
+    sprite.setScale(0.75f, 0.75f); 
     sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
 }
 
@@ -25,7 +23,6 @@ bool Piece::isValidCapture(const std::vector<std::vector<Piece*>>& board, int ne
         board[newY][newX] != nullptr && board[newY][newX]->getColor() != color;
 }
 
-// Pawn implementation
 Pawn::Pawn(Color color) : Piece(color) {
     std::string relativePath = (color == Color::White) ? "figures/white-pawn.png" : "figures/black-pawn.png";
 
@@ -67,7 +64,6 @@ std::vector<sf::Vector2i> Pawn::getValidMoves(const std::vector<std::vector<Piec
     return moves;
 }
 
-// Rook implementation
 Rook::Rook(Color color) : Piece(color) {
     std::string relativePath = (color == Color::White) ? "figures/white-rook.png" : "figures/black-rook.png";
 
@@ -89,7 +85,7 @@ void Rook::draw(sf::RenderWindow& window, int x, int y) {
 std::vector<sf::Vector2i> Rook::getValidMoves(const std::vector<std::vector<Piece*>>& board, int x, int y) {
     std::vector<sf::Vector2i> moves;
 
-    // Horizontal and vertical moves
+
     for (int i = x + 1; i < 8; ++i) {
         if (isValidMove(board, i, y)) {
             moves.push_back(sf::Vector2i(i, y));
@@ -137,7 +133,7 @@ std::vector<sf::Vector2i> Rook::getValidMoves(const std::vector<std::vector<Piec
     return moves;
 }
 
-// Knight implementation
+
 Knight::Knight(Color color) : Piece(color) {
     std::string relativePath = (color == Color::White) ? "figures/white-knight.png" : "figures/black-knight.png";
 
@@ -172,7 +168,7 @@ std::vector<sf::Vector2i> Knight::getValidMoves(const std::vector<std::vector<Pi
     return moves;
 }
 
-// Bishop implementation
+
 Bishop::Bishop(Color color) : Piece(color) {
     std::string relativePath = (color == Color::White) ? "figures/white-bishop.png" : "figures/black-bishop.png";
 
@@ -242,7 +238,6 @@ std::vector<sf::Vector2i> Bishop::getValidMoves(const std::vector<std::vector<Pi
     return moves;
 }
 
-// Queen implementation
 Queen::Queen(Color color) : Piece(color) {
     std::string relativePath = (color == Color::White) ? "figures/white-queen.png" : "figures/black-queen.png";
 
@@ -264,7 +259,7 @@ void Queen::draw(sf::RenderWindow& window, int x, int y) {
 std::vector<sf::Vector2i> Queen::getValidMoves(const std::vector<std::vector<Piece*>>& board, int x, int y) {
     std::vector<sf::Vector2i> moves;
 
-    // Horizontal and vertical moves (like Rook)
+    // Horizont and vert moves as ROOK
     for (int i = x + 1; i < 8; ++i) {
         if (isValidMove(board, i, y)) {
             moves.push_back(sf::Vector2i(i, y));
@@ -359,7 +354,7 @@ std::vector<sf::Vector2i> Queen::getValidMoves(const std::vector<std::vector<Pie
     return moves;
 }
 
-// King implementation
+
 King::King(Color color) : Piece(color), hasMoved(false) {
     std::string relativePath = (color == Color::White) ? "figures/white-king.png" : "figures/black-king.png";
 
