@@ -78,7 +78,7 @@ void ChessBoard::handleEvent(const sf::Event& event) {
             sf::Vector2i target(x, y);
             if (std::find(validMoves.begin(), validMoves.end(), target) != validMoves.end()) {
                 if (dynamic_cast<King*>(board[selectedPiece.y][selectedPiece.x])) {
-                    if (target.x == selectedPiece.x - 2) {
+                    if (target.x == selectedPiece.x - 2) { 
                         std::swap(board[selectedPiece.y][selectedPiece.x], board[target.y][target.x]);
                         std::swap(board[target.y][0], board[target.y][target.x + 1]);
                         dynamic_cast<King*>(board[target.y][target.x])->hasMoved = true;
@@ -90,8 +90,12 @@ void ChessBoard::handleEvent(const sf::Event& event) {
                         dynamic_cast<King*>(board[target.y][target.x])->hasMoved = true;
                         dynamic_cast<Rook*>(board[target.y][target.x - 1])->hasMoved = true;
                     }
-                    else {
-                        std::swap(board[selectedPiece.y][selectedPiece.x], board[target.y][target.x]);
+                    else { 
+                        if (board[target.y][target.x] != nullptr) {
+                            delete board[target.y][target.x]; 
+                        }
+                        board[target.y][target.x] = board[selectedPiece.y][selectedPiece.x];
+                        board[selectedPiece.y][selectedPiece.x] = nullptr;
                         dynamic_cast<King*>(board[target.y][target.x])->hasMoved = true;
                     }
                 }
@@ -133,6 +137,8 @@ void ChessBoard::handleEvent(const sf::Event& event) {
         }
     }
 }
+
+
 
 
 
@@ -231,6 +237,7 @@ void ChessBoard::highlightValidMoves(const std::vector<sf::Vector2i>& moves) {
 
 bool ChessBoard::isInCheck(Piece::Color color) {
     sf::Vector2i kingPos;
+
     for (int y = 0; y < 8; ++y) {
         for (int x = 0; x < 8; ++x) {
             if (board[y][x] != nullptr && board[y][x]->getColor() == color && dynamic_cast<King*>(board[y][x]) != nullptr) {
@@ -239,6 +246,7 @@ bool ChessBoard::isInCheck(Piece::Color color) {
             }
         }
     }
+
     for (int y = 0; y < 8; ++y) {
         for (int x = 0; x < 8; ++x) {
             if (board[y][x] != nullptr && board[y][x]->getColor() != color) {
@@ -249,6 +257,7 @@ bool ChessBoard::isInCheck(Piece::Color color) {
             }
         }
     }
+
     return false;
 }
 
