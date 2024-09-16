@@ -170,7 +170,7 @@ void ChessBoard::drawBoard(sf::RenderWindow& window) {
             window.draw(square);
         }
     }
-}
+} 
 
 void ChessBoard::drawPieces(sf::RenderWindow& window) {
     for (int i = 0; i < 8; ++i) {
